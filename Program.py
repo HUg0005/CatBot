@@ -17,7 +17,7 @@ class CatFact:
     def KeyPressListen(key):
         print(key)
         try:
-            if key.char == "v":
+            if key.char == "v" or key.char == "V":
                 CatFact.v_pressed = True
         except AttributeError:
             if key == keyboard.Key.ctrl:
