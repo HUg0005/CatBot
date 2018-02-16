@@ -2,20 +2,32 @@ import urllib.request
 import json
 from pynput import keyboard
 import clipboard
+import sys
 
 
 class CatFact:
     v_pressed = False
     ctrl_pressed = False
 
+    fact_json = None
+
     def GetFact():
         url = urllib.request.urlopen("https://catfact.ninja/fact")
-        fact_json = json.load(url)
+        CatFact.fact_json = json.load(url)
 
-        return fact_json["fact"]
+    def CheckLength():
+        try:
+            max_length = int(sys.argv[1])
+        except (IndexError, ValueError):
+            max_length = None
+
+        if max_length is not None and CatFact.fact_json["length"] > max_length:
+            CatFact.GetFact()
+        else:
+            CatFact.CopyFact()
+            print(CatFact.fact_json["length"])
 
     def KeyPressListen(key):
-        print(key)
         try:
             if key.char == "v" or key.char == "V":
                 CatFact.v_pressed = True
@@ -35,10 +47,11 @@ class CatFact:
 
     def CheckKeys():
         if CatFact.v_pressed and CatFact.ctrl_pressed:
-            CatFact.CopyFact()
+            CatFact.GetFact()
+            CatFact.CheckLength()
 
     def CopyFact():
-        clipboard.copy(CatFact.GetFact())
+        clipboard.copy(CatFact.fact_json["fact"])
 
 
 if __name__ == "__main__":
