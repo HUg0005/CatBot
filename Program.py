@@ -12,20 +12,13 @@ class CatFact:
     fact_json = None
 
     def GetFact():
-        url = urllib.request.urlopen("https://catfact.ninja/fact")
-        CatFact.fact_json = json.load(url)
-
-    def CheckLength():
         try:
-            max_length = int(sys.argv[1])
+            max_length = str("?max_length=" + int(sys.argv[1]))
         except (IndexError, ValueError):
-            max_length = None
+            max_length = ""
 
-        if max_length is not None and CatFact.fact_json["length"] > max_length:
-            CatFact.GetFact()
-        else:
-            CatFact.CopyFact()
-            print(CatFact.fact_json["length"])
+        url = urllib.request.urlopen("https://catfact.ninja/fact" + max_length)
+        CatFact.fact_json = json.load(url)
 
     def KeyPressListen(key):
         try:
@@ -48,7 +41,7 @@ class CatFact:
     def CheckKeys():
         if CatFact.v_pressed and CatFact.ctrl_pressed:
             CatFact.GetFact()
-            CatFact.CheckLength()
+            CatFact.CopyFact()
 
     def CopyFact():
         clipboard.copy(CatFact.fact_json["fact"])
