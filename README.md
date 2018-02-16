@@ -1,5 +1,5 @@
 # CatBot
-A program that adds catfacts to your clipboard automatically. The cat facts are sourced from https://catfact.ninja/fact
+A program that adds catfacts to your clipboard automatically. The cat facts are sourced from https://catfact.ninja/
 
 ## Install
 You need to run 
