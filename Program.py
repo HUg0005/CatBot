@@ -42,6 +42,10 @@ class CatFact:
 
 
 if __name__ == "__main__":
+
+    # Clear clipboard on start
+    clipboard.copy("")
+
     with keyboard.Listener(on_press=CatFact.KeyPressListen,
                            on_release=CatFact.KeyReleaseListen) as listener:
         listener.join()
